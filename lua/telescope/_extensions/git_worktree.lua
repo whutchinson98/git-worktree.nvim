@@ -59,7 +59,7 @@ local confirm_worktree_deletion = function(forcing)
         return true
     end
 
-    local confirmed = nil
+    local confirmed
     if forcing then
         confirmed = vim.fn.input('Force deletion of worktree? [y/n]: ')
     else
@@ -137,9 +137,10 @@ local create_input_prompt = function(opts, cb)
     opts = opts or {}
     opts.pattern = nil -- show all branches that can be tracked
 
-    local path = vim.fn.input('Path to subtree > ', opts.branch)
+    local prefix = opts.prefix or ''
+    local path = vim.fn.input('Path to subtree > ', prefix .. opts.branch)
     if path == '' then
-        Log.error("No worktree path provided")
+        Log.error('No worktree path provided')
         return
     end
 
@@ -205,7 +206,7 @@ local telescope_create_worktree = function(opts)
         -- and there's no branch shown
         local branch = selected_entry ~= nil and selected_entry.value or current_line
         if branch == nil or branch == '' then
-            Log.error("No branch selected")
+            Log.error('No branch selected')
             return
         end
         opts.branch = branch
