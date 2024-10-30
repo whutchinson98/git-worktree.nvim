@@ -256,11 +256,10 @@ function M.rebase_job(path)
     }
 end
 
-
 --- @param path string
 --- @return string|nil
 function M.parse_head(path)
-    local job =  Job:new {
+    local job = Job:new {
         command = 'git',
         args = { 'rev-parse', '--abbrev-ref', 'HEAD' },
         cwd = path,
@@ -271,13 +270,7 @@ function M.parse_head(path)
 
     local stdout, code = job:sync()
     if code ~= 0 then
-        Log.error(
-            'Error in parsing the HEAD: code:'
-                .. tostring(code)
-                .. ' out: '
-                .. table.concat(stdout, '')
-                .. '.'
-        )
+        Log.error('Error in parsing the HEAD: code:' .. tostring(code) .. ' out: ' .. table.concat(stdout, '') .. '.')
         return nil
     end
 
