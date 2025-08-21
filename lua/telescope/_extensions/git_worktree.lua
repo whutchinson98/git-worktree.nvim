@@ -138,7 +138,8 @@ local create_input_prompt = function(opts, cb)
     opts.pattern = nil -- show all branches that can be tracked
 
     local prefix = opts.prefix or ''
-    local path = vim.fn.input('Path to subtree > ', prefix .. opts.branch)
+    local suggested_path = (opts.branch or ''):gsub('/', '-')
+    local path = vim.fn.input('Path to subtree > ', prefix .. suggested_path)
     if path == '' then
         Log.error('No worktree path provided')
         return
